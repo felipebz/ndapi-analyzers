@@ -1,13 +1,11 @@
 ﻿using Microsoft.CodeAnalysis;
 using Microsoft.CodeAnalysis.CodeFixes;
 using Microsoft.CodeAnalysis.Diagnostics;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
-using System;
 using TestHelper;
+using Xunit;
 
 namespace NdapiAnalyzers.Test
 {
-    [TestClass]
     public class MissingPropertyAttributeTests : CodeFixVerifier
     {
         private const string _attributeClass = @"
@@ -16,7 +14,7 @@ sealed class PropertyAttribute : System.Attribute
     public PropertyAttribute(int id) { }
 }";
 
-        [TestMethod]
+        [Fact]
         public void PropertyWithAttributeShouldNotTriggerDiagnostic()
         {
             const string test = @"
@@ -33,7 +31,7 @@ class TypeName
             VerifyCSharpHasNoDiagnostics(test);
         }
 
-        [TestMethod]
+        [Fact]
         public void AutoImplementedPropertyShouldNotTriggerDiagnostic()
         {
             const string test = @"
@@ -46,7 +44,7 @@ class TypeName
             VerifyCSharpHasNoDiagnostics(test);
         }
 
-        [TestMethod]
+        [Fact]
         public void PropertyWithoutConstantShouldNotTriggerDiagnostic()
         {
             const string test = @"
@@ -62,7 +60,7 @@ class TypeName
             VerifyCSharpHasNoDiagnostics(test);
         }
 
-        [TestMethod]
+        [Fact]
         public void PropertyWithTwoOrMoreExpressionsInGetterShouldNotTriggerDiagnostic()
         {
             const string test = @"
@@ -82,7 +80,7 @@ class TypeName
             VerifyCSharpHasNoDiagnostics(test);
         }
 
-        [TestMethod]
+        [Fact]
         public void PropertyWithGetAcessorWithoutAttributeShouldTriggerDiagnostic()
         {
             const string test = @"
@@ -110,7 +108,7 @@ class TypeName
             VerifyCSharpDiagnostic(test, expected);
         }
 
-        [TestMethod]
+        [Fact]
         public void ExpressionBodiedPropertyWithoutAttributeShouldTriggerDiagnostic()
         {
             const string test = @"
@@ -135,7 +133,7 @@ class TypeName
             VerifyCSharpDiagnostic(test, expected);
         }
 
-        [TestMethod]
+        [Fact]
         public void FixPropertyWithGetAcessorWithoutAttribute()
         {
             const string test = @"
@@ -164,7 +162,7 @@ class TypeName
         }
 
 
-        [TestMethod]
+        [Fact]
         public void FixPropertyWithGetAcessorAndCommentsWithoutAttribute()
         {
             const string test = @"
@@ -195,7 +193,7 @@ class TypeName
         }
 
 
-        [TestMethod]
+        [Fact]
         public void FixExpressionBodiedPropertyWithoutAttribute()
         {
             const string test = @"
