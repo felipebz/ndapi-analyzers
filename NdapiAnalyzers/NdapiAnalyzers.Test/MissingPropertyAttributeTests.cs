@@ -29,7 +29,7 @@ class TypeName
     {
         get { return Test(constant); }
     }
-}" + _attributeClass;
+}";
             VerifyCSharpHasNoDiagnostics(test);
         }
 
@@ -42,7 +42,7 @@ class TypeName
     const int constant = 0;
 
     public int Id { get; set; }
-}" + _attributeClass;
+}";
             VerifyCSharpHasNoDiagnostics(test);
         }
 
@@ -58,7 +58,7 @@ class TypeName
     }
 
     public int Test() { return 0; }
-}" + _attributeClass;
+}";
             VerifyCSharpHasNoDiagnostics(test);
         }
 
@@ -74,12 +74,12 @@ class TypeName
     {
         get { return Test(constant); }
     }
-}" + _attributeClass;
+}";
 
             var expected = new DiagnosticResult
             {
                 Id = MissingPropertyAttributeAnalyzer.DiagnosticId,
-                Message = string.Format("Property '{0}' don't have a Property attribute", "Id"),
+                Message = string.Format("Property '{0}' doesn't have a Property attribute", "Id"),
                 Severity = DiagnosticSeverity.Warning,
                 Locations =
                     new[] {
@@ -99,12 +99,12 @@ class TypeName
     const int constant = 0;
 
     public int Id => Test(constant);
-}" + _attributeClass;
+}";
 
             var expected = new DiagnosticResult
             {
                 Id = MissingPropertyAttributeAnalyzer.DiagnosticId,
-                Message = string.Format("Property '{0}' don't have a Property attribute", "Id"),
+                Message = string.Format("Property '{0}' doesn't have a Property attribute", "Id"),
                 Severity = DiagnosticSeverity.Warning,
                 Locations =
                     new[] {

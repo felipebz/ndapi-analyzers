@@ -12,7 +12,7 @@ namespace NdapiAnalyzers
     {
         public const string DiagnosticId = "NDAPI-1";
         internal const string Title = "Add Property attribute";
-        internal const string MessageFormat = "Property '{0}' don't have a Property attribute";
+        internal const string MessageFormat = "Property '{0}' doesn't have a Property attribute";
         internal const string Category = "Naming";
 
         internal static DiagnosticDescriptor Rule = new DiagnosticDescriptor(DiagnosticId, Title, MessageFormat, Category, DiagnosticSeverity.Warning, isEnabledByDefault: true);
