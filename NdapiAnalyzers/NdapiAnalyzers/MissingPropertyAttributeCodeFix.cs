@@ -39,15 +39,14 @@ namespace NdapiAnalyzers
         {
             var root = await document.GetSyntaxRootAsync();
 
-            var attribute = SyntaxFactory.Attribute(SyntaxFactory.ParseName("Property"))
+            var attribute = SyntaxFactory.Attribute(SyntaxFactory.IdentifierName("Property"))
                 .WithArgumentList(
                     SyntaxFactory.AttributeArgumentList(
-                            SyntaxFactory.SeparatedList(
-                                new[] { SyntaxFactory.AttributeArgument(constant) })));
-
+                            SyntaxFactory.SingletonSeparatedList(SyntaxFactory.AttributeArgument(constant))));
+            
             var newProperty = property.WithoutLeadingTrivia()
                 .AddAttributeLists(
-                    SyntaxFactory.AttributeList(SyntaxFactory.SeparatedList(new[] { attribute }))
+                    SyntaxFactory.AttributeList(SyntaxFactory.SingletonSeparatedList(attribute))
                         .WithLeadingTrivia(property.GetLeadingTrivia()));
 
             newProperty = newProperty
