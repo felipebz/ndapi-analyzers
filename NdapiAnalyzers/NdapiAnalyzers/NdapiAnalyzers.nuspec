@@ -1,0 +1,22 @@
+﻿<?xml version="1.0"?>
+<package>
+  <metadata>
+    <id>NdapiAnalyzers</id>
+    <version>1.0.0.0</version>
+    <title>NdapiAnalyzers</title>
+    <authors>Felipe Zorzo</authors>
+    <owners>Felipe Zorzo</owners>
+    <requireLicenseAcceptance>false</requireLicenseAcceptance>
+    <description>NdapiAnalyzers</description>
+    <releaseNotes>Ndapi analyzers.</releaseNotes>
+    <copyright>Copyright</copyright>
+    <tags>ndapi</tags>
+    <frameworkAssemblies>
+      <frameworkAssembly assemblyName="System" targetFramework="" />
+    </frameworkAssemblies>
+  </metadata>
+  <files>
+    <file src="*.dll" target="tools\analyzers\" exclude="**\Microsoft.CodeAnalysis.*;**\System.Collections.Immutable.*;**\System.Reflection.Metadata.*" />
+    <file src="tools\*.ps1" target="tools\" />
+  </files>
+</package>
