@@ -8,7 +8,7 @@ using TestHelper;
 namespace NdapiAnalyzers.Test
 {
     [TestClass]
-    public class UnitTest : CodeFixVerifier
+    public class MissingPropertyAttributeTests : CodeFixVerifier
     {
         private const string _attributeClass = @"
 sealed class PropertyAttribute : System.Attribute
@@ -55,6 +55,26 @@ class TypeName
     public int Id
     {
         get { return Test(); }
+    }
+
+    public int Test() { return 0; }
+}";
+            VerifyCSharpHasNoDiagnostics(test);
+        }
+
+        [TestMethod]
+        public void PropertyWithTwoOrMoreExpressionsInGetterShouldNotTriggerDiagnostic()
+        {
+            const string test = @"
+class TypeName
+{
+    public int Id
+    {
+        get
+        {
+            var i = 0;
+            return i;
+        }
     }
 
     public int Test() { return 0; }
