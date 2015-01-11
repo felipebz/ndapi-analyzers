@@ -28,7 +28,7 @@ namespace TestHelper
         internal static string VisualBasicDefaultExt = "vb";
         internal static string CSharpDefaultFilePath = DefaultFilePathPrefix + 0 + "." + CSharpDefaultFileExt;
         internal static string VisualBasicDefaultFilePath = DefaultFilePathPrefix + 0 + "." + VisualBasicDefaultExt;
-        internal static string TestProjectName = "TestProject";
+        internal static string TestProjectName = "NdapiAnalyzer.Test.Temporary";
 
         #region  Get Diagnostics
 

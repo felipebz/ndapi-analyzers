@@ -8,24 +8,18 @@ namespace NdapiAnalyzers.Test
 {
     public class MissingPropertyAttributeTests : CodeFixVerifier
     {
-        private const string _attributeClass = @"
-sealed class PropertyAttribute : System.Attribute
-{
-    public PropertyAttribute(int id) { }
-}";
-
         [Fact]
         public void PropertyWithAttributeShouldNotTriggerDiagnostic()
         {
             const string test = @"
-class TypeName
-{
-    const int constant = 0;
+using Ndapi;
 
-    [Property(constant)]
+class TypeName : NdapiObject
+{
+    [Property(NdapiConstants.D2FP_FONT_SIZ)]
     public int Id
     {
-        get { return Test(constant); }
+        get { return GetNumberProperty(NdapiConstants.D2FP_FONT_SIZ); }
     }
 }";
             VerifyCSharpHasNoDiagnostics(test);
@@ -37,8 +31,6 @@ class TypeName
             const string test = @"
 class TypeName
 {
-    const int constant = 0;
-
     public int Id { get; set; }
 }";
             VerifyCSharpHasNoDiagnostics(test);
@@ -74,8 +66,6 @@ class TypeName
             return i;
         }
     }
-
-    public int Test() { return 0; }
 }";
             VerifyCSharpHasNoDiagnostics(test);
         }
@@ -84,13 +74,13 @@ class TypeName
         public void PropertyWithGetAcessorWithoutAttributeShouldTriggerDiagnostic()
         {
             const string test = @"
-class TypeName
-{
-    const int constant = 0;
+using Ndapi;
 
+class TypeName : NdapiObject
+{
     public int Id
     {
-        get { return Test(constant); }
+        get { return GetNumberProperty(NdapiConstants.D2FP_FONT_SIZ); }
     }
 }";
 
@@ -99,10 +89,7 @@ class TypeName
                 Id = MissingPropertyAttributeAnalyzer.DiagnosticId,
                 Message = string.Format("Property '{0}' doesn't have a Property attribute", "Id"),
                 Severity = DiagnosticSeverity.Warning,
-                Locations =
-                    new[] {
-                            new DiagnosticResultLocation("Test0.cs", 6, 5)
-                        }
+                Locations = new[] { new DiagnosticResultLocation("Test0.cs", 6, 5) }
             };
 
             VerifyCSharpDiagnostic(test, expected);
@@ -112,11 +99,11 @@ class TypeName
         public void ExpressionBodiedPropertyWithoutAttributeShouldTriggerDiagnostic()
         {
             const string test = @"
-class TypeName
-{
-    const int constant = 0;
+using Ndapi;
 
-    public int Id => Test(constant);
+class TypeName : NdapiObject
+{
+    public int Id => GetNumberProperty(NdapiConstants.D2FP_FONT_SIZ);
 }";
 
             var expected = new DiagnosticResult
@@ -124,10 +111,7 @@ class TypeName
                 Id = MissingPropertyAttributeAnalyzer.DiagnosticId,
                 Message = string.Format("Property '{0}' doesn't have a Property attribute", "Id"),
                 Severity = DiagnosticSeverity.Warning,
-                Locations =
-                    new[] {
-                            new DiagnosticResultLocation("Test0.cs", 6, 5)
-                        }
+                Locations = new[] { new DiagnosticResultLocation("Test0.cs", 6, 5) }
             };
 
             VerifyCSharpDiagnostic(test, expected);
@@ -137,27 +121,27 @@ class TypeName
         public void FixPropertyWithGetAcessorWithoutAttribute()
         {
             const string test = @"
-class TypeName
-{
-    const int constant = 0;
+using Ndapi;
 
+class TypeName : NdapiObject
+{
     public int Id
     {
-        get { return Test(constant); }
+        get { return GetNumberProperty(NdapiConstants.D2FP_FONT_SIZ); }
     }
-}" + _attributeClass;
+}";
 
             const string fixtest = @"
-class TypeName
-{
-    const int constant = 0;
+using Ndapi;
 
-    [Property(constant)]
+class TypeName : NdapiObject
+{
+    [Property(NdapiConstants.D2FP_FONT_SIZ)]
     public int Id
     {
-        get { return Test(constant); }
+        get { return GetNumberProperty(NdapiConstants.D2FP_FONT_SIZ); }
     }
-}" + _attributeClass;
+}";
             VerifyCSharpFix(test, fixtest);
         }
 
@@ -166,29 +150,29 @@ class TypeName
         public void FixPropertyWithGetAcessorAndCommentsWithoutAttribute()
         {
             const string test = @"
-class TypeName
-{
-    const int constant = 0;
+using Ndapi;
 
+class TypeName : NdapiObject
+{
     // comment
     public int Id
     {
-        get { return Test(constant); }
+        get { return GetNumberProperty(NdapiConstants.D2FP_FONT_SIZ); }
     }
-}" + _attributeClass;
+}";
 
             const string fixtest = @"
-class TypeName
-{
-    const int constant = 0;
+using Ndapi;
 
+class TypeName : NdapiObject
+{
     // comment
-    [Property(constant)]
+    [Property(NdapiConstants.D2FP_FONT_SIZ)]
     public int Id
     {
-        get { return Test(constant); }
+        get { return GetNumberProperty(NdapiConstants.D2FP_FONT_SIZ); }
     }
-}" + _attributeClass;
+}";
             VerifyCSharpFix(test, fixtest);
         }
 
@@ -197,21 +181,21 @@ class TypeName
         public void FixExpressionBodiedPropertyWithoutAttribute()
         {
             const string test = @"
-class TypeName
+using Ndapi;
+
+class TypeName : NdapiObject
 {
-    const int constant = 0;
-            
-    public int Id => Test(constant);
-}" + _attributeClass;
+    public int Id => GetNumberProperty(NdapiConstants.D2FP_FONT_SIZ);
+}";
 
             const string fixtest = @"
-class TypeName
-{
-    const int constant = 0;
+using Ndapi;
 
-    [Property(constant)]
-    public int Id => Test(constant);
-}" + _attributeClass;
+class TypeName : NdapiObject
+{
+    [Property(NdapiConstants.D2FP_FONT_SIZ)]
+    public int Id => GetNumberProperty(NdapiConstants.D2FP_FONT_SIZ);
+}";
             VerifyCSharpFix(test, fixtest);
         }
 
