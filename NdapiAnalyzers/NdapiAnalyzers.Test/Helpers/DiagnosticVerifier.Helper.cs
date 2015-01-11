@@ -2,6 +2,7 @@
 using Microsoft.CodeAnalysis.CSharp;
 using Microsoft.CodeAnalysis.Diagnostics;
 using Microsoft.CodeAnalysis.Text;
+using Ndapi;
 using System;
 using System.Collections.Generic;
 using System.Collections.Immutable;
@@ -20,6 +21,7 @@ namespace TestHelper
         private static readonly MetadataReference SystemCoreReference = MetadataReference.CreateFromAssembly(typeof(Enumerable).Assembly);
         private static readonly MetadataReference CSharpSymbolsReference = MetadataReference.CreateFromAssembly(typeof(CSharpCompilation).Assembly);
         private static readonly MetadataReference CodeAnalysisReference = MetadataReference.CreateFromAssembly(typeof(Compilation).Assembly);
+        private static readonly MetadataReference NdapiReference = MetadataReference.CreateFromAssembly(typeof(NdapiContext).Assembly);
 
         internal static string DefaultFilePathPrefix = "Test";
         internal static string CSharpDefaultFileExt = "cs";
@@ -158,10 +160,11 @@ namespace TestHelper
             var solution = new CustomWorkspace()
                 .CurrentSolution
                 .AddProject(projectId, TestProjectName, TestProjectName, language)
-                .AddMetadataReference(projectId, CorlibReference)
-                .AddMetadataReference(projectId, SystemCoreReference)
-                .AddMetadataReference(projectId, CSharpSymbolsReference)
-                .AddMetadataReference(projectId, CodeAnalysisReference);
+                .AddMetadataReferences(projectId, new[] { CorlibReference,
+                                                          SystemCoreReference,
+                                                          CSharpSymbolsReference,
+                                                          CodeAnalysisReference,
+                                                          NdapiReference });
 
             int count = 0;
             foreach (var source in sources)
