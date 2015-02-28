@@ -15,11 +15,11 @@ namespace NdapiAnalyzers
     [ExportCodeFixProvider("MissingPropertyAttributeCodeFix", LanguageNames.CSharp), Shared]
     public class MissingPropertyAttributeCodeFix : CodeFixProvider
     {
-        public sealed override ImmutableArray<string> GetFixableDiagnosticIds() => ImmutableArray.Create(MissingPropertyAttributeAnalyzer.DiagnosticId);
+        public sealed override ImmutableArray<string> FixableDiagnosticIds => ImmutableArray.Create(MissingPropertyAttributeAnalyzer.DiagnosticId);
 
         public sealed override FixAllProvider GetFixAllProvider() => WellKnownFixAllProviders.BatchFixer;
 
-        public sealed override async Task ComputeFixesAsync(CodeFixContext context)
+        public sealed override async Task RegisterCodeFixesAsync(CodeFixContext context)
         {
             var root = await context.Document.GetSyntaxRootAsync(context.CancellationToken).ConfigureAwait(false);
 
@@ -30,7 +30,7 @@ namespace NdapiAnalyzers
 
             var constant = MissingPropertyAttributeAnalyzer.FindConstant(declaration);
 
-            context.RegisterFix(
+            context.RegisterCodeFix(
                 CodeAction.Create("Add Property attribute", c => AddAttribute(context.Document, declaration, constant, c)),
                 diagnostic);
         }
