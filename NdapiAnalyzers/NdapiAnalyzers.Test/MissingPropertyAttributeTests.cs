@@ -121,7 +121,7 @@ class TypeName : NdapiObject
         public void FixPropertyWithGetAcessorWithoutAttribute()
         {
             const string test = @"
-using Ndapi;
+using Ndapi.Core;
 
 class TypeName : NdapiObject
 {
@@ -132,7 +132,7 @@ class TypeName : NdapiObject
 }";
 
             const string fixtest = @"
-using Ndapi;
+using Ndapi.Core;
 
 class TypeName : NdapiObject
 {
@@ -150,7 +150,7 @@ class TypeName : NdapiObject
         public void FixPropertyWithGetAcessorAndCommentsWithoutAttribute()
         {
             const string test = @"
-using Ndapi;
+using Ndapi.Core;
 
 class TypeName : NdapiObject
 {
@@ -162,7 +162,7 @@ class TypeName : NdapiObject
 }";
 
             const string fixtest = @"
-using Ndapi;
+using Ndapi.Core;
 
 class TypeName : NdapiObject
 {
@@ -181,7 +181,7 @@ class TypeName : NdapiObject
         public void FixExpressionBodiedPropertyWithoutAttribute()
         {
             const string test = @"
-using Ndapi;
+using Ndapi.Core;
 
 class TypeName : NdapiObject
 {
@@ -189,7 +189,7 @@ class TypeName : NdapiObject
 }";
 
             const string fixtest = @"
-using Ndapi;
+using Ndapi.Core;
 
 class TypeName : NdapiObject
 {
